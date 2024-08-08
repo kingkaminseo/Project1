@@ -1,6 +1,6 @@
 <template>
     <div class="form-container">
-        <form class="signup-form" @submit.prevent="registerUser">
+        <form class="signup-form" @submit.prevent="registerUser" id="form">
             <h1>로그인</h1>
             <label for="email">아이디</label>
             <input type="email" v-model="user.email" id="email" name="email" placeholder="이메일을 입력하세요">
@@ -9,6 +9,8 @@
             <input type="password" v-model="user.password" id="password" name="password" placeholder="비밀번호를 입력하세요">
             
             <button type="submit">로그인</button>
+            <p id="succed" style="display: none; color: green">로그인 성공!</p>
+            <p id="fail" style="display: none; color: red">로그인 실패!</p>
         </form>
     </div>
 </template>
@@ -29,11 +31,22 @@ const registerUser = async () => {
         'Content-Type': 'application/json'
       }
     });
-
+    document.getElementById('succed').style.display = 'block'
+    document.getElementById('fail').style.display = 'none'
     console.log(response.data);
     alert(response.data);
+    document.getElementById('form').style.border = '2px solid green';
+    document.getElementById('succed').display = 'block';
+    document.getElementById('fail').display = 'none';
+    setTimeout(() => {
+        window.location.href = './'
+    }, 1000);
+    
   } catch (error) {
     console.error('로그인 실패:', error);
+    document.getElementById('form').style.border = '2px solid red';
+    document.getElementById('succed').display = 'none';
+    document.getElementById('fail').display = 'block';
     alert('로그인 실패');
   }
 };

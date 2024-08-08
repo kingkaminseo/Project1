@@ -1,6 +1,6 @@
 <template>
     <div class="form-container">
-        <form class="signup-form" @submit.prevent="registerUser">
+        <form class="signup-form" @submit.prevent="registerUser" id="from">
             <h1>회원가입</h1>
             <label for="email">아이디</label>
             <input type="email" v-model="user.email" id="email" name="email" placeholder="이메일을 입력하세요">
@@ -12,6 +12,9 @@
             <input type="text" v-model="user.name" id="name" name="name" placeholder="이름을 입력하세요">
             
             <button type="submit">회원가입</button>
+            <p id="succed" style="color: rgb(0, 181, 0); display: none"></p>
+            <p id="fail" style="color: red; display: none;"></p>
+            <p>이미 계정이 있으신가요? <a href="./login">로그인</a></p>
         </form>
     </div>
 </template>
@@ -34,9 +37,21 @@ const registerUser = async () => {
       }
     });
     console.log(`${user.value.name}님 회원가입에 성공하셨습니다!`);
+    document.getElementById('fail').style.display = 'none';
+    document.getElementById('succed').style.display = 'block';
+    document.getElementById('succed').innerText = '회원가입에 성공하셨습니다.';
+    document.getElementById('from').style.border = '2px solid green';
+    document.getElementById('fail').innerText = ''
+    setTimeout(() => {
+        window.location.href = './login';
+    }, 1000);
   } catch (error) {
     console.error('회원가입 실패:', error);
-    alert('회원가입 실패');
+    document.getElementById('succed').style.display = 'none';
+    document.getElementById('fail').style.display = 'block';
+    document.getElementById('fail').innerText = '회원가입에 실패하였습니다.';
+    document.getElementById('from').style.border = '2px solid red';
+    
   }
 };
 
@@ -98,5 +113,13 @@ const registerUser = async () => {
 
 .signup-form button:hover {
     background-color: #0056b3;
+}
+
+a {
+    text-decoration: none;
+    color: #0056b3;
+}
+a:hover {
+    color: #024389;
 }
 </style>
